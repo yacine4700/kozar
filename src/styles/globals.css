@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased text-[16px] leading-relaxed;
+    -webkit-tap-highlight-color: transparent;
+    background-image: radial-gradient(#e2e8f0 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl shadow-slate-200/50;
+  }
+  
+  .input-primary {
+    @apply w-full bg-white border-2 border-slate-100 rounded-2xl px-6 py-4 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 outline-none transition-all text-lg font-bold text-slate-900 shadow-sm placeholder:text-slate-300;
+  }
+}
+
+/* Custom scrollbar for a cleaner B2B look */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-colors;
+}
+
+/* Remove arrows from number inputs for a cleaner UI */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Smooth height transition helper */
+.collapse-transition {
+  transition: grid-template-rows 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: grid;
+  grid-template-rows: 0fr;
+}
+
+.collapse-transition.open {
+  grid-template-rows: 1fr;
+}
+
+.collapse-content {
+  overflow: hidden;
+}
