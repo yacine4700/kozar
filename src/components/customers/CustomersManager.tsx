@@ -58,10 +58,10 @@ export const CustomersManager = ({ customers }: CustomersManagerProps) => {
   return (
     <div className="space-y-6" dir="rtl">
       {/* Header Actions */}
-      <div className="flex justify-between items-center bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+      <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
         <div>
-          <h3 className="text-xl font-black text-slate-800">قائمة العملاء</h3>
-          <p className="text-sm font-medium text-slate-500 mt-1">إجمالي العملاء: {customers.length}</p>
+          <h3 className="text-lg font-black text-slate-800">قائمة العملاء</h3>
+          <p className="text-xs font-medium text-slate-500 mt-1">إجمالي العملاء: {customers.length}</p>
         </div>
         <button 
           onClick={openAddForm}
@@ -73,16 +73,16 @@ export const CustomersManager = ({ customers }: CustomersManagerProps) => {
       </div>
 
       {/* Customers Table */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-right">
+          <table className="w-full text-right min-w-[800px]">
             <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 text-sm font-black uppercase tracking-widest">
               <tr>
-                <th className="px-6 py-4">التاجر / المتجر</th>
-                <th className="px-6 py-4">معلومات الاتصال</th>
-                <th className="px-6 py-4 text-center">الطلبات / التوصيلات</th>
-                <th className="px-6 py-4 text-left">قيمة التوصيلات المنجزة</th>
-                <th className="px-6 py-4 text-center">الإجراءات</th>
+                <th className="px-4 py-3">التاجر / المتجر</th>
+                <th className="px-4 py-3">معلومات الاتصال</th>
+                <th className="px-4 py-3 text-center">الطلبات / التوصيلات</th>
+                <th className="px-4 py-3 text-left">قيمة التوصيلات المنجزة</th>
+                <th className="px-4 py-3 text-center">الإجراءات</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -95,7 +95,7 @@ export const CustomersManager = ({ customers }: CustomersManagerProps) => {
               ) : (
                 customers.map(customer => (
                   <tr key={customer.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center shrink-0">
                            <User size={18} />
@@ -108,7 +108,7 @@ export const CustomersManager = ({ customers }: CustomersManagerProps) => {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2 text-slate-600">
                           <Phone size={14} className="text-slate-400 shrink-0" />
@@ -120,7 +120,7 @@ export const CustomersManager = ({ customers }: CustomersManagerProps) => {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 py-3 text-center">
                       <div className="flex items-center justify-center gap-2">
                         <div className="bg-slate-100 text-slate-600 px-2 py-1 rounded-lg text-xs font-black" title="عدد الطلبات">
                           طلبات: {customer.total_orders_count || 0}
@@ -130,12 +130,12 @@ export const CustomersManager = ({ customers }: CustomersManagerProps) => {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-left">
+                    <td className="px-4 py-3 text-left">
                       <div className="font-black text-lg text-emerald-600">
                         {customer.total_delivered_amount ? customer.total_delivered_amount.toLocaleString() : '0'} د.ج
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="flex items-center justify-center gap-3">
                         <button 
                           onClick={() => openEditForm(customer)}

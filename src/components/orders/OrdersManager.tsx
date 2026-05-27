@@ -52,22 +52,22 @@ export const OrdersManager = ({ orders }: OrdersManagerProps) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-160px)] gap-6" dir="rtl">
+    <div className="flex flex-col lg:flex-row min-h-screen lg:min-h-0 lg:h-[calc(100vh-160px)] gap-6" dir="rtl">
       
       {/* Left Pane: Orders List */}
-      <div className="w-full lg:w-1/3 flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden shrink-0">
+      <div className="w-full lg:w-1/3 flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden shrink-0 h-[500px] lg:h-auto">
         
         {/* Search Header */}
-        <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+        <div className="p-4 border-b border-slate-100 bg-slate-50/50">
           <div className="relative">
             <input 
               type="text" 
               placeholder="ابحث برقم الطلب أو اسم العميل..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border-2 border-slate-200 rounded-2xl py-3 pl-4 pr-12 text-sm font-bold focus:border-indigo-500 focus:ring-0 transition-colors"
+              className="w-full bg-white border-2 border-slate-200 rounded-xl py-2 pl-4 pr-10 text-sm font-bold focus:border-indigo-500 focus:ring-0 transition-colors"
             />
-            <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
           </div>
         </div>
 
@@ -88,9 +88,9 @@ export const OrdersManager = ({ orders }: OrdersManagerProps) => {
                 <button
                   key={order.id}
                   onClick={() => setSelectedOrderId(order.id)}
-                  className={`w-full text-right p-5 rounded-2xl border-2 transition-all group relative ${
+                  className={`w-full text-right p-3 rounded-xl border-2 transition-all group relative ${
                     isSelected 
-                      ? 'bg-indigo-50 border-indigo-500 shadow-md shadow-indigo-100/50' 
+                      ? 'bg-indigo-50 border-indigo-500 shadow-sm shadow-indigo-100/50' 
                       : 'bg-white border-slate-100 hover:border-indigo-200 hover:bg-slate-50'
                   }`}
                 >
@@ -110,17 +110,17 @@ export const OrdersManager = ({ orders }: OrdersManagerProps) => {
                     </span>
                   </div>
                   
-                  <h4 className="text-lg font-black text-slate-800 mb-1 truncate">
+                  <h4 className="text-base font-black text-slate-800 mb-1 truncate">
                     {order.customers?.name || 'عميل محذوف'}
                   </h4>
                   
-                  <div className="flex justify-between items-center mt-4">
-                    <span className="text-xs font-bold text-slate-400">
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-[10px] font-bold text-slate-400">
                       {new Date(order.created_at).toLocaleDateString('ar-DZ')}
                     </span>
                     
                     <div 
-                      className={`p-2 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100 ${isSelected ? 'opacity-100' : ''}`}
+                      className={`p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100 ${isSelected ? 'opacity-100' : ''}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         setOrderToDelete(order);

@@ -33,10 +33,10 @@ export const OrderDetails = ({ order, onDeliveryCreated }: OrderDetailsProps) =>
     <div className="h-full flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden" dir="rtl">
       
       {/* Header */}
-      <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex flex-wrap gap-6 items-start justify-between shrink-0">
+      <div className="p-4 sm:p-6 border-b border-slate-100 bg-slate-50/50 flex flex-wrap gap-4 items-start justify-between shrink-0">
         <div>
-          <div className="flex items-center gap-3 mb-2">
-            <h2 className="text-2xl font-black text-slate-800">تفاصيل الطلب</h2>
+          <div className="flex items-center gap-3 mb-1">
+            <h2 className="text-xl font-black text-slate-800">تفاصيل الطلب</h2>
             <span className="text-sm font-mono font-bold text-slate-400 bg-white border border-slate-200 px-3 py-1 rounded-lg shadow-sm">
               {order.id.split('-')[0].toUpperCase()}
             </span>
@@ -75,28 +75,28 @@ export const OrderDetails = ({ order, onDeliveryCreated }: OrderDetailsProps) =>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-8 space-y-10">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
         
         {/* Customer Details */}
-        <div className="bg-indigo-600 rounded-[2rem] p-8 text-white shadow-xl shadow-indigo-100 relative overflow-hidden">
+        <div className="bg-indigo-600 rounded-2xl p-5 sm:p-6 text-white shadow-md shadow-indigo-100 relative overflow-hidden">
           <div className="absolute -left-12 -bottom-12 opacity-10">
-            <User size={200} />
+            <User size={120} />
           </div>
-          <h3 className="text-sm font-black text-indigo-200 uppercase tracking-widest mb-6 flex items-center gap-2">
+          <h3 className="text-xs font-black text-indigo-200 uppercase tracking-widest mb-4 flex items-center gap-2">
             <User size={16} /> معلومات العميل
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
             <div>
-              <span className="text-xs font-bold text-indigo-300 block mb-1">التاجر / المتجر</span>
-              <p className="text-2xl font-black">{order.customers?.name}</p>
+              <span className="text-[10px] font-bold text-indigo-300 block mb-0.5">التاجر / المتجر</span>
+              <p className="text-xl font-black">{order.customers?.name}</p>
             </div>
             <div>
-              <span className="text-xs font-bold text-indigo-300 block mb-1">الهاتف</span>
-              <p className="text-xl font-bold font-mono" dir="ltr">{order.customers?.phone || '-'}</p>
+              <span className="text-[10px] font-bold text-indigo-300 block mb-0.5">الهاتف</span>
+              <p className="text-lg font-bold font-mono" dir="ltr">{order.customers?.phone || '-'}</p>
             </div>
             <div className="md:col-span-2">
-              <span className="text-xs font-bold text-indigo-300 block mb-1">العنوان</span>
-              <p className="text-lg font-bold flex items-center gap-2">
+              <span className="text-[10px] font-bold text-indigo-300 block mb-0.5">العنوان</span>
+              <p className="text-base font-bold flex items-center gap-2">
                 <MapPin size={18} className="text-indigo-300" />
                 {order.customers?.address || 'غير محدد'}
               </p>
@@ -150,23 +150,23 @@ export const OrderDetails = ({ order, onDeliveryCreated }: OrderDetailsProps) =>
               if (!groupedItems) return null;
 
               return Object.entries(groupedItems).map(([pId, group]) => (
-                <div key={pId} className="bg-white border-2 border-slate-100 rounded-2xl overflow-hidden shadow-sm">
+                <div key={pId} className="bg-white border-2 border-slate-100 rounded-xl overflow-hidden shadow-sm">
                   {/* Product Header */}
-                  <div className="bg-slate-50 px-6 py-4 border-b border-slate-100">
-                    <h4 className="text-xl font-black text-slate-800">{group.productName}</h4>
+                  <div className="bg-slate-50 px-4 py-3 border-b border-slate-100">
+                    <h4 className="text-base font-black text-slate-800">{group.productName}</h4>
                   </div>
                   
                   {/* Colors List */}
                   <div className="divide-y divide-slate-100">
                     {Object.entries(group.colors).map(([color, items]) => (
-                      <div key={color} className="p-6">
-                        <div className="mb-4">
-                          <span className="text-sm font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-lg border border-indigo-100">
+                      <div key={color} className="p-4">
+                        <div className="mb-3">
+                          <span className="text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-1 rounded-md border border-indigo-100">
                             {color === 'بدون لون' ? 'الكمية الإجمالية (بدون لون)' : `لون: ${color}`}
                           </span>
                         </div>
                         
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
                           {items.map(item => {
                             const ordered = item.quantity;
                             const fulfilled = item.fulfilled_quantity || 0;
@@ -175,9 +175,9 @@ export const OrderDetails = ({ order, onDeliveryCreated }: OrderDetailsProps) =>
                             const isItemComplete = remaining === 0;
 
                             return (
-                              <div key={item.id} className="bg-slate-50 rounded-xl p-4 border border-slate-100 relative overflow-hidden">
+                              <div key={item.id} className="bg-slate-50 rounded-lg p-3 border border-slate-100 relative overflow-hidden">
                                 {item.metadata?.size && (
-                                  <div className="text-sm font-black text-slate-700 mb-3">
+                                  <div className="text-xs font-black text-slate-700 mb-2">
                                     مقاس: {item.metadata.size}
                                   </div>
                                 )}

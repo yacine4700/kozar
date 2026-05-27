@@ -241,8 +241,8 @@ export const DeliveryCreationModal = ({ isOpen, onClose, order, onSuccess }: Del
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  rows={3}
-                  className="w-full bg-slate-50 border-2 border-slate-100 text-slate-800 rounded-2xl p-4 font-bold focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all placeholder:text-slate-300"
+                  rows={2}
+                  className="w-full bg-slate-50 border-2 border-slate-100 text-slate-800 rounded-xl p-3 font-bold focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all placeholder:text-slate-300 text-sm"
                   placeholder="مثال: سيتم إرسال باقي الطلبية الأسبوع القادم..."
                 ></textarea>
               </div>
@@ -251,11 +251,11 @@ export const DeliveryCreationModal = ({ isOpen, onClose, order, onSuccess }: Del
         </div>
 
         {/* Footer */}
-        <div className="p-8 border-t border-slate-100 bg-slate-50/50 flex justify-end gap-4 shrink-0">
+        <div className="p-4 sm:p-6 border-t border-slate-100 bg-slate-50/50 flex flex-col-reverse sm:flex-row justify-end gap-3 shrink-0">
           <button
             onClick={onClose}
             disabled={isPending}
-            className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-600 rounded-2xl font-black hover:bg-slate-50 transition-all disabled:opacity-50"
+            className="w-full sm:w-auto px-6 py-3 bg-white border-2 border-slate-200 text-slate-600 rounded-xl font-black hover:bg-slate-50 transition-all disabled:opacity-50"
           >
             إلغاء
           </button>
@@ -264,7 +264,7 @@ export const DeliveryCreationModal = ({ isOpen, onClose, order, onSuccess }: Del
               type="submit"
               form="delivery-form"
               disabled={isPending}
-              className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 flex items-center justify-center gap-3 disabled:opacity-70"
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white rounded-xl font-black hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {isPending ? (
                 <>

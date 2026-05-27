@@ -63,13 +63,13 @@ export const CustomerForm = ({ onSuccess, initialData }: CustomerFormProps) => {
   };
 
   return (
-    <div className="bg-white p-8 sm:p-12" dir="rtl">
-      <div className="flex items-center gap-4 mb-10">
-        <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center transform -rotate-6">
-          <User size={32} />
+    <div className="bg-white p-6 sm:p-8" dir="rtl">
+      <div className="flex items-center gap-4 mb-8">
+        <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center transform -rotate-6">
+          <User size={28} />
         </div>
         <div>
-          <h2 className="text-3xl font-black text-slate-800">
+          <h2 className="text-2xl font-black text-slate-800">
             {initialData ? 'تعديل بيانات العميل' : 'إضافة عميل جديد'}
           </h2>
           <p className="text-slate-400 font-medium mt-1">
@@ -90,7 +90,7 @@ export const CustomerForm = ({ onSuccess, initialData }: CustomerFormProps) => {
           
           {/* Name */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-black text-slate-700 uppercase tracking-widest mb-3">
+            <label className="flex items-center gap-2 text-xs font-black text-slate-700 uppercase tracking-widest mb-2">
               <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
               اسم التاجر / المتجر <span className="text-red-500">*</span>
             </label>
@@ -103,7 +103,7 @@ export const CustomerForm = ({ onSuccess, initialData }: CustomerFormProps) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full bg-slate-50 border-2 border-slate-100 text-slate-800 rounded-2xl pr-12 pl-4 py-4 font-bold focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all placeholder:text-slate-300"
+                className="w-full bg-slate-50 border-2 border-slate-100 text-slate-800 rounded-2xl pr-10 pl-4 py-3 font-bold focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all placeholder:text-slate-300"
                 placeholder="مثال: متجر الأناقة أو اسم التاجر"
               />
             </div>
@@ -111,7 +111,7 @@ export const CustomerForm = ({ onSuccess, initialData }: CustomerFormProps) => {
 
           {/* Phone */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-black text-slate-700 uppercase tracking-widest mb-3">
+            <label className="flex items-center gap-2 text-xs font-black text-slate-700 uppercase tracking-widest mb-2">
               <span className="w-2 h-2 rounded-full bg-slate-200"></span>
               رقم الهاتف (واتساب)
             </label>
@@ -123,7 +123,7 @@ export const CustomerForm = ({ onSuccess, initialData }: CustomerFormProps) => {
                 type="text" 
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full bg-slate-50 border-2 border-slate-100 text-slate-800 rounded-2xl pr-12 pl-4 py-4 font-bold focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all placeholder:text-slate-300"
+                className="w-full bg-slate-50 border-2 border-slate-100 text-slate-800 rounded-2xl pr-10 pl-4 py-3 font-bold focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all placeholder:text-slate-300"
                 placeholder="مثال: 0555555555"
               />
             </div>
@@ -131,7 +131,7 @@ export const CustomerForm = ({ onSuccess, initialData }: CustomerFormProps) => {
 
           {/* Address */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-black text-slate-700 uppercase tracking-widest mb-3">
+            <label className="flex items-center gap-2 text-xs font-black text-slate-700 uppercase tracking-widest mb-2">
               <span className="w-2 h-2 rounded-full bg-slate-200"></span>
               الولاية / العنوان
             </label>
@@ -143,7 +143,7 @@ export const CustomerForm = ({ onSuccess, initialData }: CustomerFormProps) => {
                 type="text" 
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full bg-slate-50 border-2 border-slate-100 text-slate-800 rounded-2xl pr-12 pl-4 py-4 font-bold focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all placeholder:text-slate-300"
+                className="w-full bg-slate-50 border-2 border-slate-100 text-slate-800 rounded-2xl pr-10 pl-4 py-3 font-bold focus:bg-white focus:border-indigo-500 focus:ring-0 transition-all placeholder:text-slate-300"
                 placeholder="مثال: الجزائر العاصمة، رويبة"
               />
             </div>
@@ -155,7 +155,7 @@ export const CustomerForm = ({ onSuccess, initialData }: CustomerFormProps) => {
           <button 
             type="submit" 
             disabled={isSubmitting || (initialData && !hasChanges)}
-            className="bg-indigo-600 text-white px-10 py-4 rounded-2xl font-black hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-3 rounded-2xl font-black hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>

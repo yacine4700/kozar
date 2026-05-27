@@ -140,7 +140,7 @@ export const InventoryManager = ({ products, variants, movements }: InventoryMan
       {/* Main Content - Inline List Layout */}
       <div className="space-y-6">
         {filteredProducts.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center text-slate-400 font-medium">
+          <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 font-medium">
             لا يوجد منتجات مطابقة للبحث.
           </div>
         ) : (
@@ -151,11 +151,11 @@ export const InventoryManager = ({ products, variants, movements }: InventoryMan
             const sizes = product.sizes && product.sizes.length > 0 ? product.sizes : ['بدون مقاس'];
 
             return (
-              <div key={product.id} className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+              <div key={product.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
 
                 {/* Product Header */}
-                <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
-                  <h4 className="text-lg font-black text-slate-800 flex items-center gap-3">
+                <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+                  <h4 className="text-base font-black text-slate-800 flex items-center gap-3">
                     <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-indigo-500 shadow-sm">
                       <Package size={16} />
                     </div>
@@ -191,14 +191,15 @@ export const InventoryManager = ({ products, variants, movements }: InventoryMan
                         </div>
 
                         <div className="rounded-2xl border border-slate-200 overflow-hidden bg-white">
-                          <table className="w-full text-right text-sm">
-                            <thead className="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-right text-sm min-w-[600px]">
+                              <thead className="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">
                               <tr>
-                                <th className="px-5 py-3 w-1/4">المقاس / الفئة</th>
-                                <th className="px-5 py-3 w-1/5">المخزون الحالي</th>
-                                <th className="px-5 py-3 w-1/5">الحالة</th>
-                                <th className="px-5 py-3 w-1/5">آخر تحديث</th>
-                                <th className="px-5 py-3 text-center">الإجراءات</th>
+                                <th className="px-4 py-2.5 w-1/4">المقاس / الفئة</th>
+                                <th className="px-4 py-2.5 w-1/5">المخزون الحالي</th>
+                                <th className="px-4 py-2.5 w-1/5">الحالة</th>
+                                <th className="px-4 py-2.5 w-1/5">آخر تحديث</th>
+                                <th className="px-4 py-2.5 text-center">الإجراءات</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -212,24 +213,24 @@ export const InventoryManager = ({ products, variants, movements }: InventoryMan
                               return (
                                 <React.Fragment key={size}>
                                   <tr className={`group transition-colors ${isExpanded ? 'bg-indigo-50/30' : 'hover:bg-slate-50'}`}>
-                                    <td className="px-5 py-4 font-bold text-slate-700">
+                                    <td className="px-4 py-3 font-bold text-slate-700">
                                       {size !== 'بدون مقاس' ? size : '-'}
                                     </td>
-                                    <td className="px-5 py-4">
-                                      <span className="text-xl font-black text-slate-800 font-mono bg-slate-100 px-3 py-1 rounded-lg">
+                                    <td className="px-4 py-3">
+                                      <span className="text-lg font-black text-slate-800 font-mono bg-slate-100 px-3 py-1 rounded-lg">
                                         {stock}
                                       </span>
                                     </td>
-                                    <td className="px-5 py-4">
-                                      <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-bold text-xs ${status.bg} ${status.color}`}>
+                                    <td className="px-4 py-3">
+                                      <div className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-lg font-bold text-[10px] ${status.bg} ${status.color}`}>
                                         {status.icon}
                                         {status.label}
                                       </div>
                                     </td>
-                                    <td className="px-5 py-4 font-bold text-slate-400">
+                                    <td className="px-4 py-3 font-bold text-slate-400">
                                       {updatedDate}
                                     </td>
-                                    <td className="px-5 py-4">
+                                    <td className="px-4 py-3">
                                       <div className={`flex items-center justify-center gap-2 transition-opacity ${isExpanded ? 'opacity-100' : 'opacity-100 md:opacity-0 md:group-hover:opacity-100'}`}>
                                         <button
                                           onClick={() => isExpanded ? handleCloseInline() : handleOpenInline(product, color, size)}
@@ -317,7 +318,8 @@ export const InventoryManager = ({ products, variants, movements }: InventoryMan
                             })}
                           </tbody>
                         </table>
-                      </div>
+                          </div>
+                        </div>
                     </div>
                   );
                 })}

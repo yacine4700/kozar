@@ -102,16 +102,16 @@ export const ProductForm = ({ onSuccess, initialData }: ProductFormProps) => {
   };
 
   return (
-    <div className="bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm">
-      <div className="mb-8 flex items-center gap-4 border-b border-slate-100 pb-6">
-        <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
-          <Package size={24} />
+    <div className="bg-white rounded-[2.5rem] border border-slate-200 p-6 shadow-sm">
+      <div className="mb-6 flex items-center gap-4 border-b border-slate-100 pb-4">
+        <div className="w-10 h-10 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+          <Package size={20} />
         </div>
         <div>
-          <h2 className="text-2xl font-black text-slate-800">
+          <h2 className="text-xl font-black text-slate-800">
             {initialData ? 'تعديل المنتج' : 'إضافة منتج جديد'}
           </h2>
-          <p className="text-slate-500 font-medium text-sm mt-1">
+          <p className="text-slate-500 font-medium text-xs mt-1">
             {initialData ? 'قم بتحديث تفاصيل المنتج الحالي.' : 'أدخل تفاصيل الموديل الجديد، والألوان، والمقاسات المتاحة.'}
           </p>
         </div>
@@ -139,26 +139,26 @@ export const ProductForm = ({ onSuccess, initialData }: ProductFormProps) => {
         {/* Basic Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-black text-slate-700 uppercase tracking-widest block">اسم الموديل</label>
+            <label className="text-xs font-black text-slate-700 uppercase tracking-widest block">اسم الموديل</label>
             <input 
               type="text" 
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="مثال: قفطان تلمساني"
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-800 font-bold"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-800 font-bold text-sm"
             />
           </div>
           
           <div className="space-y-2">
-            <label className="text-sm font-black text-slate-700 uppercase tracking-widest block">السعر الأساسي (اختياري)</label>
+            <label className="text-xs font-black text-slate-700 uppercase tracking-widest block">السعر الأساسي (اختياري)</label>
             <div className="relative">
               <input 
                 type="number" 
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="0.00"
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-16 pr-6 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-800 font-bold"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-800 font-bold text-sm"
               />
               <span className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-black">د.ج</span>
             </div>
@@ -166,13 +166,13 @@ export const ProductForm = ({ onSuccess, initialData }: ProductFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-black text-slate-700 uppercase tracking-widest block">وصف المنتج (اختياري)</label>
+          <label className="text-xs font-black text-slate-700 uppercase tracking-widest block">وصف المنتج (اختياري)</label>
           <textarea 
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="أضف وصفاً مختصراً للمنتج..."
             rows={3}
-            className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-800 font-bold resize-none"
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-slate-800 font-bold resize-none text-sm"
           />
         </div>
 
@@ -245,7 +245,7 @@ export const ProductForm = ({ onSuccess, initialData }: ProductFormProps) => {
           <button 
             type="submit" 
             disabled={isSubmitting || (initialData && !hasChanges)}
-            className="bg-indigo-600 text-white px-10 py-4 rounded-2xl font-black hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-3 rounded-xl font-black hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>
@@ -254,7 +254,7 @@ export const ProductForm = ({ onSuccess, initialData }: ProductFormProps) => {
               </>
             ) : (
               <>
-                {initialData ? <Save size={20} /> : <Plus size={20} />}
+                {initialData ? <Save size={18} /> : <Plus size={18} />}
                 {initialData ? 'حفظ التغييرات' : 'حفظ المنتج'}
               </>
             )}

@@ -59,10 +59,10 @@ export const ProductsManager = ({ products }: ProductsManagerProps) => {
   return (
     <div className="space-y-6" dir="rtl">
       {/* Header Actions */}
-      <div className="flex justify-between items-center bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+      <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
         <div>
-          <h3 className="text-xl font-black text-slate-800">قائمة المنتجات</h3>
-          <p className="text-sm font-medium text-slate-500 mt-1">إجمالي المنتجات: {products.length}</p>
+          <h3 className="text-lg font-black text-slate-800">قائمة المنتجات</h3>
+          <p className="text-xs font-medium text-slate-500 mt-1">إجمالي المنتجات: {products.length}</p>
         </div>
         <button 
           onClick={openAddForm}
@@ -74,16 +74,16 @@ export const ProductsManager = ({ products }: ProductsManagerProps) => {
       </div>
 
       {/* Products Table */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-right">
+          <table className="w-full text-right min-w-[800px]">
             <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 text-sm font-black uppercase tracking-widest">
               <tr>
-                <th className="px-6 py-4">المنتج (SKU)</th>
-                <th className="px-6 py-4">السعر</th>
-                <th className="px-6 py-4">المقاسات</th>
-                <th className="px-6 py-4">الألوان</th>
-                <th className="px-6 py-4 text-center">الإجراءات</th>
+                <th className="px-4 py-3">المنتج (SKU)</th>
+                <th className="px-4 py-3">السعر</th>
+                <th className="px-4 py-3">المقاسات</th>
+                <th className="px-4 py-3">الألوان</th>
+                <th className="px-4 py-3 text-center">الإجراءات</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -96,26 +96,26 @@ export const ProductsManager = ({ products }: ProductsManagerProps) => {
               ) : (
                 products.map(product => (
                   <tr key={product.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="font-bold text-slate-800">{product.name}</div>
                       {product.sku && <div className="text-xs font-mono text-slate-400 mt-1">{product.sku}</div>}
                     </td>
-                    <td className="px-6 py-4 font-bold text-indigo-600">{product.price} د.ج</td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3 font-bold text-indigo-600">{product.price} د.ج</td>
+                    <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-1">
                         {product.sizes?.length ? product.sizes.map(size => (
                           <span key={size} className="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-lg font-bold">{size}</span>
                         )) : <span className="text-slate-400 text-xs">-</span>}
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-1">
                         {product.colors?.length ? product.colors.map(color => (
                           <span key={color} className="bg-indigo-50 text-indigo-700 border border-indigo-100 text-xs px-2 py-1 rounded-lg font-bold">{color}</span>
                         )) : <span className="text-slate-400 text-xs">-</span>}
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="flex items-center justify-center gap-3">
                         <button 
                           onClick={() => openEditForm(product)}
