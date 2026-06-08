@@ -27,6 +27,22 @@ export async function getSettings(): Promise<{ data?: WorkshopSettings | null; e
       return { error: "حدث خطأ أثناء جلب الإعدادات" };
     }
 
+    if (!data) {
+      // Create a default settings record if none exists
+      const { data: newData, error: insertError } = await supabase
+        .from('settings')
+        .insert({})
+        .select('*')
+        .single();
+        
+      if (insertError) {
+        console.error("Error creating default settings:", insertError);
+        return { data: null }; // Degrade gracefully
+      }
+      
+      return { data: newData };
+    }
+
     return { data };
   } catch (error) {
     console.error("getSettings error:", error);
