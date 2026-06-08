@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { WorkshopSettings, updateSettings } from '@/actions/settings/settings.actions';
-import { Save, Loader2, FileText } from 'lucide-react';
+import { FileText, Loader2, CheckCircle2, XCircle } from 'lucide-react';
+
+type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 
 export function LegalSettingsForm({ initialSettings }: { initialSettings: WorkshopSettings | null }) {
   const [formData, setFormData] = useState({
@@ -12,26 +14,30 @@ export function LegalSettingsForm({ initialSettings }: { initialSettings: Worksh
     nis: initialSettings?.nis || '',
   });
   
-  const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const lastSavedData = useRef({ ...formData });
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleBlur = async (field: keyof typeof formData) => {
     if (!initialSettings?.id) return;
+    
+    if (formData[field] === lastSavedData.current[field]) return;
 
-    setIsSaving(true);
-    setMessage(null);
+    setSaveStatus('saving');
+    setErrorMessage(null);
 
-    const result = await updateSettings(initialSettings.id, formData);
+    const result = await updateSettings(initialSettings.id, { [field]: formData[field] });
     
     if (result.error) {
-      setMessage({ type: 'error', text: result.error });
+      setSaveStatus('error');
+      setErrorMessage(result.error);
     } else {
-      setMessage({ type: 'success', text: 'تم حفظ المعلومات القانونية بنجاح.' });
-      setTimeout(() => setMessage(null), 3000);
+      lastSavedData.current[field] = formData[field];
+      setSaveStatus('saved');
+      setTimeout(() => {
+        setSaveStatus(current => current === 'saved' ? 'idle' : current);
+      }, 2000);
     }
-    
-    setIsSaving(false);
   };
 
   return (
@@ -40,16 +46,35 @@ export function LegalSettingsForm({ initialSettings }: { initialSettings: Worksh
         <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center">
           <FileText size={24} />
         </div>
-        <div>
-          <h2 className="text-xl font-black text-gray-900">المعلومات القانونية</h2>
-          <p className="text-sm font-medium text-gray-500 mt-1">تفاصيل السجل التجاري والضرائب (RC, NIF, AI, NIS)</p>
+        <div className="flex-1 flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-black text-gray-900 flex items-center gap-3">
+              المعلومات القانونية
+              {saveStatus === 'saving' && (
+                <span className="text-xs font-bold text-slate-400 flex items-center gap-1 bg-slate-50 px-2 py-1 rounded-md">
+                  <Loader2 size={12} className="animate-spin" /> جاري الحفظ...
+                </span>
+              )}
+              {saveStatus === 'saved' && (
+                <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 bg-emerald-50 px-2 py-1 rounded-md animate-in fade-in">
+                  <CheckCircle2 size={12} /> تم الحفظ
+                </span>
+              )}
+              {saveStatus === 'error' && (
+                <span className="text-xs font-bold text-red-600 flex items-center gap-1 bg-red-50 px-2 py-1 rounded-md animate-in fade-in">
+                  <XCircle size={12} /> خطأ في الحفظ
+                </span>
+              )}
+            </h2>
+            <p className="text-sm font-medium text-gray-500 mt-1">تفاصيل السجل التجاري والضرائب (RC, NIF, AI, NIS)</p>
+          </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {message && (
-          <div className={`p-4 rounded-xl font-bold text-sm ${message.type === 'success' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
-            {message.text}
+      <div className="space-y-6">
+        {errorMessage && (
+          <div className="p-4 rounded-xl font-bold text-sm bg-red-50 text-red-700">
+            {errorMessage}
           </div>
         )}
 
@@ -60,6 +85,7 @@ export function LegalSettingsForm({ initialSettings }: { initialSettings: Worksh
               type="text"
               value={formData.rc}
               onChange={(e) => setFormData(prev => ({ ...prev, rc: e.target.value }))}
+              onBlur={() => handleBlur('rc')}
               className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all text-left dir-ltr"
               placeholder="e.g. 16/00-0000000A00"
             />
@@ -71,6 +97,7 @@ export function LegalSettingsForm({ initialSettings }: { initialSettings: Worksh
               type="text"
               value={formData.nif}
               onChange={(e) => setFormData(prev => ({ ...prev, nif: e.target.value }))}
+              onBlur={() => handleBlur('nif')}
               className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all text-left dir-ltr"
               placeholder="15 digits"
             />
@@ -82,6 +109,7 @@ export function LegalSettingsForm({ initialSettings }: { initialSettings: Worksh
               type="text"
               value={formData.ai}
               onChange={(e) => setFormData(prev => ({ ...prev, ai: e.target.value }))}
+              onBlur={() => handleBlur('ai')}
               className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all text-left dir-ltr"
               placeholder="11 digits"
             />
@@ -93,23 +121,13 @@ export function LegalSettingsForm({ initialSettings }: { initialSettings: Worksh
               type="text"
               value={formData.nis}
               onChange={(e) => setFormData(prev => ({ ...prev, nis: e.target.value }))}
+              onBlur={() => handleBlur('nis')}
               className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all text-left dir-ltr"
               placeholder="15 digits"
             />
           </div>
         </div>
-
-        <div className="flex justify-end pt-4 border-t border-gray-100">
-          <button
-            type="submit"
-            disabled={isSaving || !initialSettings?.id}
-            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-bold transition-all disabled:opacity-50"
-          >
-            {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-            حفظ التغييرات
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 }
