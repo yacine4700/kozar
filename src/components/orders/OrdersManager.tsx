@@ -11,6 +11,7 @@ interface OrdersManagerProps {
   orders: Order[];
 }
 
+export const OrdersManager = ({ orders }: OrdersManagerProps) => {
   const router = useRouter();
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
