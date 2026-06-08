@@ -52,10 +52,10 @@ export const OrdersManager = ({ orders }: OrdersManagerProps) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-[calc(100dvh-100px)] lg:h-[calc(100vh-160px)] gap-6" dir="rtl">
+    <div className="flex flex-col lg:flex-row min-h-[calc(100vh-100px)] lg:min-h-0 lg:h-[calc(100vh-160px)] gap-6" dir="rtl">
       
       {/* Left Pane: Orders List */}
-      <div className={`w-full lg:w-1/3 flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden shrink-0 h-full lg:h-auto ${selectedOrderId ? 'hidden lg:flex' : 'flex'}`}>
+      <div className={`w-full lg:w-1/3 flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm lg:overflow-hidden shrink-0 ${selectedOrderId ? 'hidden lg:flex' : 'flex'}`}>
         
         {/* Search Header */}
         <div className="p-4 border-b border-slate-100 bg-slate-50/50">
@@ -72,7 +72,7 @@ export const OrdersManager = ({ orders }: OrdersManagerProps) => {
         </div>
 
         {/* List */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="flex-1 lg:overflow-y-auto p-4 space-y-3">
           {filteredOrders.length === 0 ? (
             <div className="text-center py-10 text-slate-400 font-medium text-sm">
               لا توجد طلبات مطابقة.
@@ -138,7 +138,7 @@ export const OrdersManager = ({ orders }: OrdersManagerProps) => {
       </div>
 
       {/* Right Pane: Details */}
-      <div className={`flex-1 h-full min-h-0 ${selectedOrderId ? 'flex flex-col' : 'hidden lg:flex lg:flex-col'}`}>
+      <div className={`flex-1 min-h-[calc(100vh-100px)] lg:min-h-[500px] ${selectedOrderId ? 'flex flex-col' : 'hidden lg:flex lg:flex-col'}`}>
         <OrderDetails 
           order={selectedOrder} 
           onDeliveryCreated={handleDeliveryCreated}

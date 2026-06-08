@@ -16,7 +16,7 @@ export const OrderDetails = ({ order, onDeliveryCreated, onBack }: OrderDetailsP
 
   if (!order) {
     return (
-      <div className="h-full flex flex-col items-center justify-center text-slate-400 bg-slate-50/50 rounded-3xl border-2 border-dashed border-slate-200 p-12 text-center">
+      <div className="lg:h-full flex flex-col items-center justify-center text-slate-400 bg-slate-50/50 rounded-3xl border-2 border-dashed border-slate-200 p-12 text-center">
         <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-6">
           <ShoppingBag size={40} className="text-slate-300" />
         </div>
@@ -31,7 +31,7 @@ export const OrderDetails = ({ order, onDeliveryCreated, onBack }: OrderDetailsP
   const isPartial = order.status === 'PARTIALLY_FULFILLED' || order.status === 'SHIPPED' as any;
 
   return (
-    <div className="h-full flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden" dir="rtl">
+    <div className="lg:h-full flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm lg:overflow-hidden" dir="rtl">
       
       {/* Header */}
       <div className="p-4 sm:p-6 border-b border-slate-100 bg-slate-50/50 flex flex-wrap gap-4 items-start justify-between shrink-0">
@@ -86,7 +86,7 @@ export const OrderDetails = ({ order, onDeliveryCreated, onBack }: OrderDetailsP
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+      <div className="flex-1 lg:overflow-y-auto p-4 sm:p-6 space-y-6">
         
         {/* Customer Details */}
         <div className="bg-indigo-600 rounded-2xl p-5 sm:p-6 text-white shadow-md shadow-indigo-100 relative overflow-hidden">
