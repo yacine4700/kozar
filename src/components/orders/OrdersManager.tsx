@@ -11,9 +11,8 @@ interface OrdersManagerProps {
   orders: Order[];
 }
 
-export const OrdersManager = ({ orders }: OrdersManagerProps) => {
   const router = useRouter();
-  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(orders[0]?.id || null);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [orderToDelete, setOrderToDelete] = useState<Order | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -52,10 +51,10 @@ export const OrdersManager = ({ orders }: OrdersManagerProps) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen lg:min-h-0 lg:h-[calc(100vh-160px)] gap-6" dir="rtl">
+    <div className="flex flex-col lg:flex-row min-h-[calc(100vh-100px)] lg:min-h-0 lg:h-[calc(100vh-160px)] gap-6" dir="rtl">
       
       {/* Left Pane: Orders List */}
-      <div className="w-full lg:w-1/3 flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden shrink-0 h-[500px] lg:h-auto">
+      <div className={`w-full lg:w-1/3 flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden shrink-0 h-[calc(100vh-100px)] lg:h-auto ${selectedOrderId ? 'hidden lg:flex' : 'flex'}`}>
         
         {/* Search Header */}
         <div className="p-4 border-b border-slate-100 bg-slate-50/50">
@@ -138,10 +137,11 @@ export const OrdersManager = ({ orders }: OrdersManagerProps) => {
       </div>
 
       {/* Right Pane: Details */}
-      <div className="flex-1 min-h-[500px]">
+      <div className={`flex-1 min-h-[calc(100vh-100px)] lg:min-h-[500px] ${selectedOrderId ? 'block' : 'hidden lg:block'}`}>
         <OrderDetails 
           order={selectedOrder} 
           onDeliveryCreated={handleDeliveryCreated}
+          onBack={() => setSelectedOrderId(null)}
         />
       </div>
 

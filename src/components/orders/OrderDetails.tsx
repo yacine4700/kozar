@@ -8,9 +8,10 @@ import { DeliveryCreationModal } from './DeliveryCreationModal';
 interface OrderDetailsProps {
   order: Order | null;
   onDeliveryCreated: () => void;
+  onBack?: () => void;
 }
 
-export const OrderDetails = ({ order, onDeliveryCreated }: OrderDetailsProps) => {
+export const OrderDetails = ({ order, onDeliveryCreated, onBack }: OrderDetailsProps) => {
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
 
   if (!order) {
@@ -36,6 +37,16 @@ export const OrderDetails = ({ order, onDeliveryCreated }: OrderDetailsProps) =>
       <div className="p-4 sm:p-6 border-b border-slate-100 bg-slate-50/50 flex flex-wrap gap-4 items-start justify-between shrink-0">
         <div>
           <div className="flex items-center gap-3 mb-1">
+            {onBack && (
+              <button 
+                onClick={onBack}
+                className="lg:hidden p-2 -mr-2 text-slate-500 hover:text-indigo-600 rounded-xl hover:bg-indigo-50 transition-colors"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rotate-180">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            )}
             <h2 className="text-xl font-black text-slate-800">تفاصيل الطلب</h2>
             <span className="text-sm font-mono font-bold text-slate-400 bg-white border border-slate-200 px-3 py-1 rounded-lg shadow-sm">
               {order.id.split('-')[0].toUpperCase()}

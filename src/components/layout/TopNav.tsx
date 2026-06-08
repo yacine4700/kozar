@@ -13,7 +13,7 @@ export function TopNav({ profile }: { profile?: MinimalProfile & { full_name?: s
       <div className="flex-1 flex items-center gap-4">
         <button 
           onClick={toggle}
-          className="p-2 -ml-2 text-slate-500 hover:text-indigo-600 lg:hidden rounded-xl hover:bg-indigo-50 transition-colors"
+          className="p-2 -mr-2 text-slate-500 hover:text-indigo-600 lg:hidden rounded-xl hover:bg-indigo-50 transition-colors"
         >
           <Menu size={24} />
         </button>
