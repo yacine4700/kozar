@@ -33,8 +33,8 @@ export default async function OrdersPage() {
     .order('created_at', { ascending: false });
 
   return (
-    <main className="flex-1 p-8 lg:p-12 h-full min-h-[calc(100vh-80px)] overflow-hidden flex flex-col" dir="rtl">
-      <header className="flex items-center justify-between mb-8 shrink-0">
+    <main className="flex-1 p-4 lg:p-8 min-h-screen" dir="rtl">
+      <header className="flex items-center justify-between mb-8">
         <h2 className="text-3xl font-black text-slate-800 tracking-tight">إدارة الطلبات والتوصيل</h2>
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
@@ -43,7 +43,7 @@ export default async function OrdersPage() {
         </div>
       </header>
 
-      <div className="flex-1">
+      <div>
         <OrdersManager orders={orders || []} />
       </div>
     </main>
