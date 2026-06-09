@@ -15,11 +15,15 @@ export interface WorkshopSettings {
 
 export async function getSettings(): Promise<{ data?: WorkshopSettings | null; error?: string }> {
   try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
+    const { createAdminClient } = await import('@/utils/supabase/admin');
+    const adminSupabase = createAdminClient();
+
+    // Query using admin client to bypass RLS which blocks standard clients from reading/writing.
+    // Order by created_at ascending to get the FIRST (original) settings row.
+    const { data, error } = await adminSupabase
       .from('settings')
       .select('*')
-      .order('updated_at', { ascending: false })
+      .order('created_at', { ascending: true })
       .limit(1)
       .maybeSingle();
 
@@ -30,11 +34,6 @@ export async function getSettings(): Promise<{ data?: WorkshopSettings | null; e
 
     if (!data) {
       // Create a default settings record if none exists.
-      // We use the admin client here to bypass RLS because standard users 
-      // typically only have UPDATE permissions on the singleton settings table, not INSERT.
-      const { createAdminClient } = await import('@/utils/supabase/admin');
-      const adminSupabase = createAdminClient();
-      
       const { data: newData, error: insertError } = await adminSupabase
         .from('settings')
         .insert({})
@@ -49,6 +48,13 @@ export async function getSettings(): Promise<{ data?: WorkshopSettings | null; e
       return { data: newData };
     }
 
+    // Clean up duplicate rows if they exist (fixes the spam row bug)
+    const { data: allSettings } = await adminSupabase.from('settings').select('id').order('created_at', { ascending: true });
+    if (allSettings && allSettings.length > 1) {
+       const idsToDelete = allSettings.slice(1).map(s => s.id);
+       await adminSupabase.from('settings').delete().in('id', idsToDelete);
+    }
+
     return { data };
   } catch (error) {
     console.error("getSettings error:", error);
@@ -60,13 +66,17 @@ export async function updateSettings(id: string, updates: Partial<WorkshopSettin
   try {
     const supabase = await createClient();
     
-    // Check if user is authenticated (can add role check here later)
+    // Check if user is authenticated
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       return { error: "غير مصرح لك بتعديل الإعدادات" };
     }
 
-    const { error } = await supabase
+    const { createAdminClient } = await import('@/utils/supabase/admin');
+    const adminSupabase = createAdminClient();
+
+    // UPDATE the single record using admin client to bypass RLS
+    const { error } = await adminSupabase
       .from('settings')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id);
