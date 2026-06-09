@@ -23,7 +23,7 @@ export async function getSettings(): Promise<{ data?: WorkshopSettings | null; e
     const { data, error } = await adminSupabase
       .from('settings')
       .select('*')
-      .order('created_at', { ascending: true })
+      .order('updated_at', { ascending: true })
       .limit(1)
       .maybeSingle();
 
@@ -46,13 +46,6 @@ export async function getSettings(): Promise<{ data?: WorkshopSettings | null; e
       }
       
       return { data: newData };
-    }
-
-    // Clean up duplicate rows if they exist (fixes the spam row bug)
-    const { data: allSettings } = await adminSupabase.from('settings').select('id').order('created_at', { ascending: true });
-    if (allSettings && allSettings.length > 1) {
-       const idsToDelete = allSettings.slice(1).map(s => s.id);
-       await adminSupabase.from('settings').delete().in('id', idsToDelete);
     }
 
     return { data };

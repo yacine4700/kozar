@@ -12,6 +12,11 @@ export function createAdminClient() {
     auth: {
       autoRefreshToken: false,
       persistSession: false
+    },
+    global: {
+      fetch: (fetchUrl, options) => {
+        return fetch(fetchUrl, { ...options, cache: 'no-store' });
+      }
     }
   });
 }
