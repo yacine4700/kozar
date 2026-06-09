@@ -26,28 +26,28 @@ export function LegalSettingsForm({ initialSettings }: { initialSettings: Worksh
       </div>
 
       <div className="divide-y divide-gray-100">
-        <SettingsListItem 
+        <SettingsListItem
           label="السجل التجاري (RC)"
           value={initialSettings?.rc || ''}
           placeholder="e.g. 16/00-0000000A00"
           ltr={true}
           onSave={(val) => handleSave('rc', val)}
         />
-        <SettingsListItem 
+        <SettingsListItem
           label="رقم التعريف الجبائي (NIF)"
           value={initialSettings?.nif || ''}
           placeholder="15 digits"
           ltr={true}
           onSave={(val) => handleSave('nif', val)}
         />
-        <SettingsListItem 
+        <SettingsListItem
           label="المادة الضريبية (AI)"
           value={initialSettings?.ai || ''}
           placeholder="11 digits"
           ltr={true}
           onSave={(val) => handleSave('ai', val)}
         />
-        <SettingsListItem 
+        <SettingsListItem
           label="رقم التعريف الإحصائي (NIS)"
           value={initialSettings?.nis || ''}
           placeholder="15 digits"

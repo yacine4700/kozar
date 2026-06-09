@@ -10,6 +10,8 @@ export const metadata = {
   description: 'إدارة إعدادات الورشة، المعلومات القانونية، وحسابات المستخدمين.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function SettingsPage() {
   const profile = await getCurrentProfile();
   

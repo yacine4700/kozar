@@ -19,6 +19,7 @@ export async function getSettings(): Promise<{ data?: WorkshopSettings | null; e
     const { data, error } = await supabase
       .from('settings')
       .select('*')
+      .order('updated_at', { ascending: false })
       .limit(1)
       .maybeSingle();
 
@@ -37,7 +38,7 @@ export async function getSettings(): Promise<{ data?: WorkshopSettings | null; e
         
       if (insertError) {
         console.error("Error creating default settings:", insertError);
-        return { data: null }; // Degrade gracefully
+        return { error: `Failed to create settings row: ${insertError.message}` };
       }
       
       return { data: newData };
@@ -70,7 +71,8 @@ export async function updateSettings(id: string, updates: Partial<WorkshopSettin
       return { error: "حدث خطأ أثناء حفظ الإعدادات" };
     }
 
-    revalidatePath('/settings');
+    revalidatePath('/settings', 'layout');
+    revalidatePath('/', 'layout');
     return { success: true };
   } catch (error) {
     console.error("updateSettings error:", error);
