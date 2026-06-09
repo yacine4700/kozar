@@ -6,11 +6,13 @@ import { usePathname } from 'next/navigation';
 import { logout } from '@/actions/auth/auth.actions';
 import { hasPageAccess, MinimalProfile } from '@/lib/permissions';
 import { useSidebar } from './SidebarContext';
+import { useSettings } from '@/providers/SettingsProvider';
 import { useEffect } from 'react';
 
 export function Sidebar({ profile }: { profile?: MinimalProfile | null }) {
   const pathname = usePathname();
   const { isOpen, setIsOpen } = useSidebar();
+  const settings = useSettings();
 
   // Close sidebar on route change on mobile
   useEffect(() => {
@@ -33,7 +35,9 @@ export function Sidebar({ profile }: { profile?: MinimalProfile | null }) {
       }`}>
         <div className="mb-8 px-2 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-black text-indigo-600 tracking-tighter">زهرة الربيع</h1>
+            <h1 className="text-xl font-black text-indigo-600 tracking-tighter truncate max-w-[180px]" title={settings?.workshop_name || 'زهرة الربيع'}>
+              {settings?.workshop_name || 'زهرة الربيع'}
+            </h1>
             <p className="text-xs font-black text-slate-400 uppercase tracking-widest mt-1">لوحة التحكم</p>
           </div>
           <button 
