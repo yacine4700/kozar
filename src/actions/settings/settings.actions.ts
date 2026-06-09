@@ -29,8 +29,13 @@ export async function getSettings(): Promise<{ data?: WorkshopSettings | null; e
     }
 
     if (!data) {
-      // Create a default settings record if none exists
-      const { data: newData, error: insertError } = await supabase
+      // Create a default settings record if none exists.
+      // We use the admin client here to bypass RLS because standard users 
+      // typically only have UPDATE permissions on the singleton settings table, not INSERT.
+      const { createAdminClient } = await import('@/utils/supabase/admin');
+      const adminSupabase = createAdminClient();
+      
+      const { data: newData, error: insertError } = await adminSupabase
         .from('settings')
         .insert({})
         .select('*')
