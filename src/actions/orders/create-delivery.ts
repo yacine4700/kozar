@@ -99,11 +99,15 @@ export async function createDelivery(orderId: string, items: DeliveryInputItem[]
       if (purchaseOrder) {
          // Insert into purchase_order_items
          const orderItem = orderItems.find(oi => oi.id === item.order_item_id)!;
+         const { data: metaData } = await supabase.from('order_items').select('metadata').eq('id', orderItem.id).single();
+         
          await supabase.from('purchase_order_items').insert({
            purchase_order_id: purchaseOrder.id,
            product_id: orderItem.product_id,
            quantity: item.quantity,
-           unit_price: item.unit_price
+           unit_cost: item.unit_price, // Changed from unit_price to match DB column unit_cost
+           color: metaData?.metadata?.color || null,
+           size: metaData?.metadata?.size || null
          });
       }
       
@@ -166,7 +170,20 @@ export async function createDelivery(orderId: string, items: DeliveryInputItem[]
           });
       }
           
-      // Log the movement with variant details
+      // Log the movement with variant details into inventory_transactions (per requirements)
+      await supabase
+        .from('inventory_transactions')
+        .insert({
+          product_id: orderItem.product_id,
+          transaction_type: 'OUT',
+          quantity: item.quantity,
+          notes: 'ORDER_FULFILLMENT',
+          color,
+          size,
+          order_id: orderId
+        });
+        
+      // Also log to stock_movements for backward compatibility if needed
       await supabase
         .from('stock_movements')
         .insert({
