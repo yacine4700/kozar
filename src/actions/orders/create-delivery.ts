@@ -61,14 +61,18 @@ export async function createDelivery(orderId: string, items: DeliveryInputItem[]
       .eq('id', orderId)
       .single();
       
+    const customerObj: any = Array.isArray(orderData?.customers) 
+      ? orderData?.customers[0] 
+      : orderData?.customers;
+      
     // 2.2 Create Purchase Order record as per new requirements
     const { data: purchaseOrder, error: poError } = await supabase
       .from('purchase_orders')
       .insert({
         order_id: orderId,
-        customer_name: orderData?.customers?.name || 'غير محدد',
-        customer_phone: orderData?.customers?.phone || '',
-        customer_address: orderData?.customers?.address || '',
+        customer_name: customerObj?.name || 'غير محدد',
+        customer_phone: customerObj?.phone || '',
+        customer_address: customerObj?.address || '',
         total_amount: validItems.reduce((sum, item) => sum + (item.quantity * item.unit_price), 0),
         status: 'COMPLETED'
       })
