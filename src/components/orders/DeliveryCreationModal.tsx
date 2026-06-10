@@ -9,7 +9,7 @@ interface DeliveryCreationModalProps {
   isOpen: boolean;
   onClose: () => void;
   order: Order | null;
-  onSuccess: () => void;
+  onSuccess: (purchaseOrderId?: string) => void;
 }
 
 export const DeliveryCreationModal = ({ isOpen, onClose, order, onSuccess }: DeliveryCreationModalProps) => {
@@ -87,7 +87,7 @@ export const DeliveryCreationModal = ({ isOpen, onClose, order, onSuccess }: Del
       if (result.error) {
         setError(result.error);
       } else {
-        onSuccess();
+        onSuccess(result.purchaseOrderId);
       }
     });
   };

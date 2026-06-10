@@ -42,7 +42,7 @@ export async function createDelivery(orderId: string, items: DeliveryInputItem[]
       }
     }
 
-    // 2. Create the delivery record
+    // 2. Create the delivery record (for existing logic)
     const { data: delivery, error: deliveryError } = await supabase
       .from('deliveries')
       .insert({ order_id: orderId, notes })
@@ -54,7 +54,33 @@ export async function createDelivery(orderId: string, items: DeliveryInputItem[]
       return { error: "حدث خطأ أثناء إنشاء وصل التوصيل" };
     }
 
-    // 3. Create delivery items, update order items, and deduct stock
+    // 2.1 Fetch customer info from order
+    const { data: orderData } = await supabase
+      .from('orders')
+      .select('customers(name, phone, address)')
+      .eq('id', orderId)
+      .single();
+      
+    // 2.2 Create Purchase Order record as per new requirements
+    const { data: purchaseOrder, error: poError } = await supabase
+      .from('purchase_orders')
+      .insert({
+        order_id: orderId,
+        customer_name: orderData?.customers?.name || 'غير محدد',
+        customer_phone: orderData?.customers?.phone || '',
+        customer_address: orderData?.customers?.address || '',
+        total_amount: validItems.reduce((sum, item) => sum + (item.quantity * item.unit_price), 0),
+        status: 'COMPLETED'
+      })
+      .select('id')
+      .single();
+
+    if (poError) {
+      console.error("Error creating purchase order:", poError);
+      // Non-fatal, continue with delivery creation
+    }
+
+    // 3. Create delivery items, purchase order items, update order items, and deduct stock
     for (const item of validItems) {
       // Insert delivery item
       const { error: diError } = await supabase
@@ -65,6 +91,17 @@ export async function createDelivery(orderId: string, items: DeliveryInputItem[]
           quantity: item.quantity,
           unit_price: item.unit_price
         });
+        
+      if (purchaseOrder) {
+         // Insert into purchase_order_items
+         const orderItem = orderItems.find(oi => oi.id === item.order_item_id)!;
+         await supabase.from('purchase_order_items').insert({
+           purchase_order_id: purchaseOrder.id,
+           product_id: orderItem.product_id,
+           quantity: item.quantity,
+           unit_price: item.unit_price
+         });
+      }
       
       if (diError) {
         console.error("Error creating delivery item:", diError);
@@ -153,7 +190,7 @@ export async function createDelivery(orderId: string, items: DeliveryInputItem[]
     }
 
     revalidatePath('/orders');
-    return { success: true };
+    return { success: true, deliveryId: delivery.id, purchaseOrderId: purchaseOrder?.id };
   } catch (error) {
     console.error("Create delivery exception:", error);
     return { error: "حدث خطأ غير متوقع" };

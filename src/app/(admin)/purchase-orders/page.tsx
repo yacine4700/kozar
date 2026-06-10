@@ -1,5 +1,9 @@
-import { ProtectedPagePlaceholder } from '@/components/shared/ProtectedPagePlaceholder';
+import { PurchaseOrdersList } from '@/components/purchase-orders/PurchaseOrdersList';
 
 export default function PurchaseOrdersPage() {
-  return <ProtectedPagePlaceholder title="طلبات الشراء" />;
+  return (
+    <div className="p-6">
+      <PurchaseOrdersList />
+    </div>
+  );
 }

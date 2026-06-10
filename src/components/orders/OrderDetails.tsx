@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ShoppingBag, Truck, CheckCircle2, Clock, MapPin, Phone, User, ExternalLink } from 'lucide-react';
 import { Order } from '@/types';
 import { DeliveryCreationModal } from './DeliveryCreationModal';
+import { DeliveryNotePrintPreview } from '@/components/purchase-orders/DeliveryNotePrintPreview';
 
 interface OrderDetailsProps {
   order: Order | null;
@@ -13,6 +14,8 @@ interface OrderDetailsProps {
 
 export const OrderDetails = ({ order, onDeliveryCreated, onBack }: OrderDetailsProps) => {
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [previewPurchaseOrderId, setPreviewPurchaseOrderId] = useState<string | undefined>();
 
   if (!order) {
     return (
@@ -235,10 +238,20 @@ export const OrderDetails = ({ order, onDeliveryCreated, onBack }: OrderDetailsP
         isOpen={isDeliveryModalOpen}
         onClose={() => setIsDeliveryModalOpen(false)}
         order={order}
-        onSuccess={() => {
+        onSuccess={(purchaseOrderId) => {
           setIsDeliveryModalOpen(false);
+          if (purchaseOrderId) {
+            setPreviewPurchaseOrderId(purchaseOrderId);
+            setIsPreviewOpen(true);
+          }
           onDeliveryCreated();
         }}
+      />
+
+      <DeliveryNotePrintPreview 
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        purchaseOrderId={previewPurchaseOrderId}
       />
     </div>
   );
